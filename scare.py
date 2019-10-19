@@ -18,7 +18,7 @@ random.seed(time.time())
 def startle():
     x = random.randrange(4)
     print "Startle!, ", x
-    os.system("sudo omxplayer -b -o hdmi --vol 100 /home/pi/share/startle" + str(x) + ".mp4")
+    os.system("sudo omxplayer -b -o hdmi --vol 100 /home/pi/share/scare" + str(x) + ".mp4")
 
 def roam():
     x = random.randrange(4)
