@@ -35,7 +35,7 @@ def startle():
 def roam():
     x = random.randrange(4)
     print "Roam!, ", x
-    os.system("sudo omxplayer -b -o both --vol 80 /home/pi/share/roam" +str(x) + ".mp4")
+    os.system("sudo omxplayer -b -o both --vol 60 /home/pi/share/roam" +str(x) + ".mp4")
 
 
 os.system("sudo fbi -d /dev/fb0 -T 1 --noverbose /home/pi/share/black.png")
