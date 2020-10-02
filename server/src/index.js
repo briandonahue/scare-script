@@ -33,7 +33,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
   setInterval(() => {
       i++
       socket.emit('message', `still connected..${i}`)
-  }, 1000)
+  }, 3000)
   socket.on('console', (msg) => {
       console.log(msg)
   })
