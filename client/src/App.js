@@ -8,6 +8,8 @@ const socket = new io({ path: '/socket' })
 function App() {
   const [output, setOutput] = useState('')
   const [config, setConfig] = useState({ hauntCooldown: 0, roamCooldown: 0 })
+  const [motion, setMotion] = useState(false)
+
   console.log("WHAT IS HAPPENING")
   const handleConfigChange = (newConfig) => {
     console.log("CONFIG CHANGED", newConfig)
@@ -31,6 +33,9 @@ function App() {
       console.log("MESSAGE")
       appendLog(msg)
     })
+    socket.on('motion', (msg) => {
+      setMotion(msg)
+    })
 
     return () => socket.disconnect()
   }, [])
@@ -51,6 +56,12 @@ function App() {
             <Label for="roam-cooldown">Roam Cooldown</Label>
             <Col md="3" >
               <Input type="text" id="roam-cooldown" value={config.roamCooldown} />
+            </Col>
+          </FormGroup>
+          <FormGroup row>
+            <Label for="motion">Motion:</Label>
+            <Col md="3" >
+              <Input type="text" id="motion" value={motion.toString()} />
             </Col>
           </FormGroup>
         </Form>
