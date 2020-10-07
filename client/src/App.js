@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './App.scss';
 import io from 'socket.io-client'
-import { Input, FormGroup, Label, Col, Container, Form } from 'reactstrap';
+import { 
+  Input, 
+  FormGroup, 
+  Label, 
+  Col, 
+  Container, 
+  Form, 
+  Button, 
+  Row } from 'reactstrap';
 
 const socket = new io({ path: '/socket' })
 
@@ -46,6 +54,13 @@ function App() {
     <div>
       <Container style={{ marginTop: "1em" }}>
         <Form>
+          <Row>
+            <Col>
+            <Button color="danger" onClick={() => socket.emit('scare')}>Scare!</Button>
+            <Button color="success" onClick={() => socket.emit('roam')}>Roam!</Button>
+            <Button color="primary" onClick={() => socket.emit('skull', 0)}>Skull 1</Button>
+            </Col>
+          </Row>
           <FormGroup row>
             <Label for="haunt-cooldown">Haunt Cooldown</Label>
             <Col md="3" >
