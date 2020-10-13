@@ -7,8 +7,11 @@
 #define BLUEPIN 5
 
 #define FADESPEED 5 // make this higher to slow down
-long rando;
+long redRando;
+long blueRando;
+long greenRando;
 long multiplier;
+
 void setup()
 {
 
@@ -20,11 +23,29 @@ void setup()
 void loop()
 
 {
-  rando = random(1, 255);
-  multiplier = rando / 255;
-  analogWrite(REDPIN, rando);
-  analogWrite(GREENPIN, 50*multiplier);
-  analogWrite(BLUEPIN, 0);
+
+    //Generate Random Number to set brightness
+  int brightness = random(120);
+  
+  //Use brightness and filler to set Red to high visibility
+  analogWrite(REDPIN, brightness+135);
+  
+  //Use green and blue in a very low percentage to get some orange glowing into the "fire"
+  analogWrite(GREENPIN, brightness/7);
+  analogWrite(BLUEPIN, brightness/17);
+  
+  //create a little bit of flickering
+  delay(random(20, 200));
+  /*
+  redRando = random(1, 255);
+  blueRando = random(1, 120);
+  greenRando = random(1, 232);
+  multiplier = redRando / 255;
+
+  analogWrite(REDPIN, redRando);
+  analogWrite(GREENPIN, greenRando * multiplier);
+  analogWrite(BLUEPIN, blueRando * multiplier);
 
   delay(random(20, 200));
+  */
 }
