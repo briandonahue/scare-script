@@ -2540,6 +2540,11 @@ negotiator@0.6.2:
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
   integrity sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw==
 
+node-omxplayer@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/node-omxplayer/-/node-omxplayer-0.6.1.tgz#85c8fffb034f3fec66ceaa1fb569f937a0a2914f"
+  integrity sha512-yRhzO8iDwN6fzMs862xrCDu4vnjpRmus8yzu2S9WP14OqgeB0epdKipJro+C9iqIQ6OD5Ao25ZuftZ1Lw/kisA==
+
 node-releases@^1.1.61:
   version "1.1.61"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.61.tgz#707b0fca9ce4e11783612ba4a2fcba09047af16e"
