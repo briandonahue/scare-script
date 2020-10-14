@@ -1,8 +1,11 @@
-const { exec } = require('child_process')
-var Gpio = require('onoff').Gpio; 
+import "regenerator-runtime/runtime.js";
+import { exec } from 'child_process'
+import { Gpio } from 'onoff'
+
 const pinSkull1 = new Gpio(19, 'out'); 
 const pinSkull2 = new Gpio(26, 'out'); 
-//const redPin = new Gpio(16)
+
+
 var pinMotion = new Gpio(17, 'in'); 
 
 const HIGH = 1
@@ -79,3 +82,4 @@ const play = async (fileNum, type) => {
   const { error, stdout, stderr } = await exec(`sudo omxplayer -b -o both --vol -1000 /home/pi/share/${type}${fileNum}.mp4`)
   console.log(error, stdout, stderr)
 }
+
