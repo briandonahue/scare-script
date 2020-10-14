@@ -1,11 +1,11 @@
 
-var Gpio = require('onoff').Gpio;
+import { Gpio } from 'onoff'
 
-const ReadMotion = {
+class ReadMotion {
 
-    start: (pinNumber, intervalMs, callback) => {
+    start(pinNumber, intervalMs, callback) {
 
-        if (isNaN(options.pinNumber)) throw new Error("Pin not specified.")
+        if (isNaN(pinNumber)) throw new Error("Pin not specified.")
         const pin = new Gpio(pinNumber, "in")
         let MOTION_DETECTED = false
         this.intervalHandle = setInterval(async () => {
@@ -13,12 +13,15 @@ const ReadMotion = {
             const current = value === 1
             if (MOTION_DETECTED != current) {
                 MOTION_DETECTED = current
-                callback()
+                console.log(current ? "Motion detected!" : "Motion stopped.")
+                callback(current)
             }
         }, intervalMs)
 
-    },
-    stop: () => {
+    }
+    stop() {
         clearInterval(this.intervalHandle)
     }
 }
+
+export default ReadMotion

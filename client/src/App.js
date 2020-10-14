@@ -17,6 +17,7 @@ function App() {
   const [output, setOutput] = useState('')
   const [config, setConfig] = useState({ hauntCooldown: 0, roamCooldown: 0 })
   const [motion, setMotion] = useState(false)
+  const [enableMotion, setEnableMotion] = useState(false)
 
   console.log("WHAT IS HAPPENING")
   const handleConfigChange = (newConfig) => {
@@ -48,6 +49,14 @@ function App() {
     return () => socket.disconnect()
   }, [])
 
+  useEffect(() => {
+    socket.emit('enableMotion', enableMotion)
+
+  }, [enableMotion])
+
+  const toggleMotion = () => {
+    setEnableMotion(!enableMotion)
+  }
 
 
   return (
@@ -58,6 +67,7 @@ function App() {
             <Col>
             <Button color="danger" onClick={() => socket.emit('scare')}>Scare!</Button>
             <Button color="success" onClick={() => socket.emit('roam')}>Roam!</Button>
+            <Button color={enableMotion ? "success" : "danger"} onClick={toggleMotion}>{ enableMotion ?  "Disable Motion" : "Enable Motion" }</Button>
             <Button color="primary" onClick={() => socket.emit('skull', 0)}>Skull 1</Button>
             </Col>
           </Row>
