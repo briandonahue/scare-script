@@ -63,39 +63,52 @@ function App() {
   return (
     <div>
       <Container style={{ marginTop: "1em" }}>
+        <Row className="text-center">
+          <Col><h1>Halloween</h1></Col>
+        </Row>
         <Form>
-          <Row>
-            <Col>
-              <Button color="danger" onClick={() => socket.emit('scare')}>Scare!</Button>
-              <Button color="success" onClick={() => socket.emit('roam')}>Roam!</Button>
-              <label>
+          <Row form>
+            <Col md="3">
+              <FormGroup>
+                <label>Enable Motion</label>
                 <Toggle
                   defaultChecked={enableMotion}
                   onChange={toggleMotion}
-                 />
-                   <span>Enable Motion</span>
-              </label>
-              <Button color="primary" onClick={() => socket.emit('skull', 0)}>Skull 1</Button>
+                />
+              </FormGroup>
+            </Col>
+            <Col md="3">
+              <FormGroup>
+                <label>Kid Mode</label>
+                <Toggle
+                  defaultChecked={enableMotion}
+                  onChange={toggleMotion}
+                />
+              </FormGroup>
             </Col>
           </Row>
-          <FormGroup row>
-            <Label for="haunt-cooldown">Haunt Cooldown</Label>
+          <Row form>
             <Col md="3" >
-              <Input type="text" id="haunt-cooldown" value={config.hauntCooldown} />
+              <FormGroup>
+                <Label for="haunt-cooldown">Haunt Cooldown</Label>
+                <Input type="text" id="haunt-cooldown" value={config.hauntCooldown} />
+              </FormGroup>
             </Col>
-          </FormGroup>
-          <FormGroup row>
-            <Label for="roam-cooldown">Roam Cooldown</Label>
             <Col md="3" >
-              <Input type="text" id="roam-cooldown" value={config.roamCooldown} />
+              <FormGroup>
+                <Label for="roam-cooldown">Roam Cooldown</Label>
+                <Input type="text" id="roam-cooldown" value={config.roamCooldown} />
+              </FormGroup>
             </Col>
-          </FormGroup>
-          <FormGroup row>
-            <Label for="motion">Motion:</Label>
-            <Col md="3" >
-              <Input type="text" id="motion" value={motion.toString()} />
+          </Row>
+          <Row form>
+            <Col md={6} >
+              <FormGroup>
+                <Label for="motion">Motion:</Label>
+                <Input type="text" id="motion" value={motion.toString()} />
+              </FormGroup>
             </Col>
-          </FormGroup>
+          </Row>
         </Form>
         <pre>
           test
