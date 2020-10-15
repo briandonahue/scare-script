@@ -3,13 +3,22 @@ import { exec } from 'child_process'
 import ReadMotion from './ReadMotion'
 import { server } from './server'
 import fs from 'fs'
-import {play} from './play-video'
+import { play } from './play-video'
+import Glob from 'glob'
 
 
 
 const motion = new ReadMotion();
 
 exec("sudo fbi -d /dev/fb0 -T 1 --noverbose /home/pi/share/black.png")
+const loadFiles = (orientation) => {
+  return {
+    roam: Glob.sync(`/home/pi/share/${orientation}/roam/**/*.mp4`),
+    scare: Glob.sync(`/home/pi/share/${orientation}/scare/**/*.mp4`),
+  }
+}
+let files = loadFiles('horizontal')
+console.log(files)
 
 
 var config = {
@@ -48,18 +57,18 @@ io.sockets.on('connection', async (socket) => {// WebSocket Connection
     console.log(msg)
   })
   socket.on('scare', async (msg) => {
-    const ghost = Math.floor(Math.random() * 4)
-    await playFile(ghost, 'scare')
+    const ghost = Math.floor(Math.random() * files.scare.length)
+    await playFile(files.scare[ghost])
   })
   socket.on('roam', async (msg) => {
-    const ghost = Math.floor(Math.random() * 4)
-    await playFile(ghost, 'roam')
+    const ghost = Math.floor(Math.random() * files.roam.length)
+    await playFile(files.roam[ghost])
   })
 
 });
 
-const playFile = (fileNum, type) => {
-   play(`/home/pi/share/${type}${fileNum}.mp4`)
-  console.log("playing", fileNum)
+const playFile = async (file) => {
+  await  play(file)
+  console.log("playing", file)
 }
 
