@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import './App.scss';
 import io from 'socket.io-client'
-import { 
-  Input, 
-  FormGroup, 
-  Label, 
-  Col, 
-  Container, 
-  Form, 
-  Button, 
-  Row } from 'reactstrap';
+import {
+  Input,
+  FormGroup,
+  Label,
+  Col,
+  Container,
+  Form,
+  Button,
+  Row
+} from 'reactstrap';
+import Toggle from 'react-toggle'
 
 const socket = new io({ path: '/socket' })
 
@@ -65,10 +66,16 @@ function App() {
         <Form>
           <Row>
             <Col>
-            <Button color="danger" onClick={() => socket.emit('scare')}>Scare!</Button>
-            <Button color="success" onClick={() => socket.emit('roam')}>Roam!</Button>
-            <Button color={enableMotion ? "success" : "danger"} onClick={toggleMotion}>{ enableMotion ?  "Disable Motion" : "Enable Motion" }</Button>
-            <Button color="primary" onClick={() => socket.emit('skull', 0)}>Skull 1</Button>
+              <Button color="danger" onClick={() => socket.emit('scare')}>Scare!</Button>
+              <Button color="success" onClick={() => socket.emit('roam')}>Roam!</Button>
+              <label>
+                <Toggle
+                  defaultChecked={enableMotion}
+                  onChange={toggleMotion}
+                 />
+                   <span>Enable Motion</span>
+              </label>
+              <Button color="primary" onClick={() => socket.emit('skull', 0)}>Skull 1</Button>
             </Col>
           </Row>
           <FormGroup row>

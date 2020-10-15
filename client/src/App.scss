@@ -1,3 +1,32 @@
+@import './react-toggle.scss';
+
+/*! `Custom` Bootstrap 4 theme */
+@import url(https://cdnjs.cloudflare.com/ajax/libs/ionicons/3.0.0/css/ionicons.min.css);
+@import url(https://fonts.googleapis.com/css?family=Crete+Round:200,300,400,700);
+$headings-font-family:Crete Round;
+
+$enable-grid-classes:false;
+$primary:#e65000;
+$secondary:#303030;
+$success:#013589;
+$danger:#ffbb00;
+$info:#a501c6;
+$warning:#e397f2;
+$light:#e8e8e8;
+$dark:#000000;
+$spacer:1rem;
+$border-width:1px;
+$btn-border-radius:.25rem;
+
+/*! Import Bootstrap 4 variables */
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+$body-bg:$orange;
+
+@import '~bootstrap/scss/bootstrap.scss';
+
+// Add SASS theme customizations here..
+
 .App {
   text-align: center;
 }
