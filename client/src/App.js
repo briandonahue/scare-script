@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client'
 import {
-  Input,
-  FormGroup,
-  Label,
   Col,
   Container,
   Form,
   Button,
   Row
-} from 'reactstrap';
+} from 'react-bootstrap';
 import Toggle from 'react-toggle'
 
 const socket = new io({ path: '/socket' })
@@ -69,44 +66,44 @@ function App() {
         <Form>
           <Row form>
             <Col md="3">
-              <FormGroup>
+              <Form.Group>
                 <label>Enable Motion</label>
                 <Toggle
                   defaultChecked={enableMotion}
                   onChange={toggleMotion}
                 />
-              </FormGroup>
+              </Form.Group>
             </Col>
             <Col md="3">
-              <FormGroup>
+              <Form.Group>
                 <label>Kid Mode</label>
                 <Toggle
                   defaultChecked={enableMotion}
                   onChange={toggleMotion}
                 />
-              </FormGroup>
+              </Form.Group>
             </Col>
           </Row>
           <Row form>
             <Col md="3" >
-              <FormGroup>
-                <Label for="haunt-cooldown">Haunt Cooldown</Label>
-                <Input type="text" id="haunt-cooldown" value={config.hauntCooldown} />
-              </FormGroup>
+              <Form.Group>
+                <Form.Label for="haunt-cooldown">Haunt Cooldown</Form.Label>
+                <Form.Control type="text" id="haunt-cooldown" value={config.hauntCooldown} />
+              </Form.Group>
             </Col>
             <Col md="3" >
-              <FormGroup>
-                <Label for="roam-cooldown">Roam Cooldown</Label>
-                <Input type="text" id="roam-cooldown" value={config.roamCooldown} />
-              </FormGroup>
+              <Form.Group>
+                <Form.Label for="roam-cooldown">Roam Cooldown</Form.Label>
+                <Form.Control type="text" id="roam-cooldown" value={config.roamCooldown} />
+              </Form.Group>
             </Col>
           </Row>
           <Row form>
             <Col md={6} >
-              <FormGroup>
-                <Label for="motion">Motion:</Label>
-                <Input type="text" id="motion" value={motion.toString()} />
-              </FormGroup>
+              <Form.Group>
+                <Form.Label for="motion">Motion:</Form.Label>
+                <Form.Control type="text" id="motion" value={motion.toString()} />
+              </Form.Group>
             </Col>
           </Row>
         </Form>

@@ -1,4 +1,5 @@
 import {createServer} from 'http';
+import fs from 'fs'
 
 const server = createServer(function handler(req, res) { 
   fs.readFile('public/index.html', function (err, data) { 
