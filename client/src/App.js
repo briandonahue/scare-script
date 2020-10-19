@@ -16,6 +16,8 @@ function App() {
   const [config, setConfig] = useState({ hauntCooldown: 0, roamCooldown: 0 })
   const [motion, setMotion] = useState(false)
   const [enableMotion, setEnableMotion] = useState(false)
+  const [verticalMode, setVerticalMode] = useState(false)
+  const [kidMode, setKidMode] = useState(false)
 
   console.log("WHAT IS HAPPENING")
   const handleConfigChange = (newConfig) => {
@@ -51,9 +53,23 @@ function App() {
     socket.emit('enableMotion', enableMotion)
 
   }, [enableMotion])
+  useEffect(() => {
+    socket.emit('verticalMode', verticalMode)
+
+  }, [verticalMode])
+
+  useEffect(() => {
+    socket.emit('kidMode', kidMode)
+  }, [kidMode])
 
   const toggleMotion = () => {
     setEnableMotion(!enableMotion)
+  }
+  const toggleVertical = () => {
+    setVerticalMode(!verticalMode)
+  }
+  const toggleKid = () => {
+    setKidMode(!kidMode)
   }
 
 
@@ -67,7 +83,16 @@ function App() {
           <Row form>
             <Col md="3">
               <Form.Group>
-                <label>Enable Motion</label>
+                <label>Vertical Mode</label>
+                <Toggle
+                  defaultChecked={verticalMode}
+                  onChange={toggleVertical}
+                />
+              </Form.Group>
+            </Col>
+            <Col md="3">
+              <Form.Group>
+                <label>Motion Detection</label>
                 <Toggle
                   defaultChecked={enableMotion}
                   onChange={toggleMotion}
