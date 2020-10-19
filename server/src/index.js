@@ -7,17 +7,19 @@ import { play } from './play-video'
 import Glob from 'glob'
 
 
-let verticalMode = false
-let kidMode = false
 let files = {roam:[], scare:[]}
 
 const motion = new ReadMotion();
 
 
-var config = {
+var defaultConfig = {
   hauntCooldown: 30,
-  roamCooldown: 60
+  roamCooldown: 60,
+  verticalMode: false,
+  kidMode: false
 }
+
+const config = defaultConfig
 
 let roamInterval = undefined
 
@@ -31,7 +33,7 @@ const loadFiles = (isVertical, kidMode) => {
   }
 }
 
-loadFiles(verticalMode)
+loadFiles(config.verticalMode)
 console.log(files)
 
 var io = require('socket.io')(server, { path: '/socket' })
@@ -39,6 +41,18 @@ var io = require('socket.io')(server, { path: '/socket' })
 server.listen(8080);
 console.log("Listening on port 8080...")
 
+const startRoam = () => {
+  if(roamInterval) clearInterval(roamInterval)
+  roamInterval = setInterval(() => {
+    playRoam()
+  }, config.roamCooldown * 1000)
+}
+
+const playRoam = async () => {
+    const ghost = Math.floor(Math.random() * files.roam.length)
+    const file = files.roam[ghost]
+    await play(file)
+}
 
 
 io.sockets.on('connection', async (socket) => {// WebSocket Connection
@@ -49,12 +63,12 @@ io.sockets.on('connection', async (socket) => {// WebSocket Connection
 
 
   socket.on('verticalMode', (enabled) => {
-    verticalMode = enabled
-    loadFiles(verticalMode)
+    config.verticalMode = enabled
+    loadFiles(config.verticalMode)
   })
   socket.on('kidMode', (enabled) => {
-    kidMode = enabled
-    loadFiles(kidMode)
+    config.kidMode = enabled
+    loadFiles(config.kidMode)
   })
   socket.on('enableMotion', (enabled) => {
     if (enabled) {
@@ -74,17 +88,13 @@ io.sockets.on('connection', async (socket) => {// WebSocket Connection
   })
   socket.on('scare', async (msg) => {
     const ghost = Math.floor(Math.random() * files.scare.length)
-    await playFile(files.scare[ghost])
+    const file = files.scare[ghost]
+    await play(file)
   })
-  socket.on('roam', async (msg) => {
-    const ghost = Math.floor(Math.random() * files.roam.length)
-    await playFile(files.roam[ghost])
+  socket.on('start-roam', async () => {
+    await playRoam()
   })
 
 });
 
-const playFile = async (file) => {
-  await play(file)
-  console.log("playing", file)
-}
 

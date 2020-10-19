@@ -124,11 +124,14 @@ function App() {
             </Col>
           </Row>
           <Row>
-            <Col md={6} >
+            <Col>
               <Form.Group>
                 <Form.Label for="motion">Motion:</Form.Label>
                 <Form.Control type="text" id="motion" value={motion.toString()} />
               </Form.Group>
+            </Col>
+            <Col>
+              <Button onClick={() => socket.emit('start-roam')}>Roam</Button>
             </Col>
           </Row>
         </Form>
