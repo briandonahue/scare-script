@@ -80,8 +80,8 @@ function App() {
           <Col><h1>Halloween</h1></Col>
         </Row>
         <Form>
-          <Row form>
-            <Col md="3">
+          <Row>
+            <Col>
               <Form.Group>
                 <label>Vertical Mode</label>
                 <Toggle
@@ -90,7 +90,7 @@ function App() {
                 />
               </Form.Group>
             </Col>
-            <Col md="3">
+            <Col>
               <Form.Group>
                 <label>Motion Detection</label>
                 <Toggle
@@ -99,7 +99,7 @@ function App() {
                 />
               </Form.Group>
             </Col>
-            <Col md="3">
+            <Col>
               <Form.Group>
                 <label>Kid Mode</label>
                 <Toggle
@@ -109,21 +109,21 @@ function App() {
               </Form.Group>
             </Col>
           </Row>
-          <Row form>
-            <Col md="3" >
+          <Row>
+            <Col>
               <Form.Group>
                 <Form.Label for="haunt-cooldown">Haunt Cooldown</Form.Label>
                 <Form.Control type="text" id="haunt-cooldown" value={config.hauntCooldown} />
               </Form.Group>
             </Col>
-            <Col md="3" >
+            <Col>
               <Form.Group>
                 <Form.Label for="roam-cooldown">Roam Cooldown</Form.Label>
                 <Form.Control type="text" id="roam-cooldown" value={config.roamCooldown} />
               </Form.Group>
             </Col>
           </Row>
-          <Row form>
+          <Row>
             <Col md={6} >
               <Form.Group>
                 <Form.Label for="motion">Motion:</Form.Label>

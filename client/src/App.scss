@@ -1,11 +1,11 @@
-@import './react-toggle.scss';
 
 /*! `Custom` Bootstrap 4 theme */
+/*
 @import url(https://cdnjs.cloudflare.com/ajax/libs/ionicons/3.0.0/css/ionicons.min.css);
 @import url(https://fonts.googleapis.com/css?family=Crete+Round:200,300,400,700);
 $headings-font-family:Crete Round;
+*/
 
-$enable-grid-classes:false;
 $primary:#e65000;
 $secondary:#303030;
 $success:#013589;
@@ -24,6 +24,7 @@ $btn-border-radius:.25rem;
 $body-bg:$orange;
 
 @import '~bootstrap/scss/bootstrap.scss';
+@import './react-toggle.scss';
 
 // Add SASS theme customizations here..
 
