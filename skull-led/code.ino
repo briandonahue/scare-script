@@ -35,7 +35,17 @@ void loop()
   analogWrite(BLUEPIN, brightness/17);
   
   //create a little bit of flickering
-  delay(random(20, 200));
+  delay(random(20, 300));
+
+  analogWrite(REDPIN, 0);
+  
+  //Use green and blue in a very low percentage to get some orange glowing into the "fire"
+  analogWrite(GREENPIN, 0);
+  analogWrite(BLUEPIN, 0);
+  delay(random(0, 100));
+  
+
+
   /*
   redRando = random(1, 255);
   blueRando = random(1, 120);

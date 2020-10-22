@@ -11,6 +11,7 @@ class Timer {
     }
 
     start() {
+        console.log(this)
         if (!this.paused) {
             if (this.intervalHandle) clearInterval(this.intervalHandle)
             this.remaining = this.duration
