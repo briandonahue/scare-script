@@ -36,7 +36,7 @@ const loadFiles = (isVertical, kidMode) => {
 loadFiles(config.verticalMode)
 console.log(files)
 
-var io = require('socket.io')(server, { path: '/socket' })
+const socket = require('socket.io')(server, { path: '/socket' })
 
 server.listen(8080);
 console.log("Listening on port 8080...")
@@ -55,12 +55,14 @@ const playRoam = async () => {
 }
 
 
-io.sockets.on('connection', async (socket) => {// WebSocket Connection
+
+socket.on('connection', async (socket) => {// WebSocket Connection
   console.log("Client Connected")
   //  var buttonState = 0; //variable to store button state
   socket.broadcast.emit('test', "test")
   socket.emit('config', config)
 
+})
 
   socket.on('verticalMode', (enabled) => {
     config.verticalMode = enabled
@@ -95,6 +97,5 @@ io.sockets.on('connection', async (socket) => {// WebSocket Connection
     await playRoam()
   })
 
-});
 
 
