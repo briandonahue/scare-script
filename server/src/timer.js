@@ -2,41 +2,28 @@
 class Timer {
 
     constructor(options) {
-        this.tick = options.tick
         this.duration = options.duration
         this.elapsedCallback = options.elapsedCallback
+        this.tick = options.tick || options.duration
         this.tickCallback = options.tickCallback
-        this.repeat = options.repeat
+        //this.repeat = options.repeat
 
     }
 
     start() {
-        console.log(this)
-        if (!this.paused) {
-            if (this.intervalHandle) clearInterval(this.intervalHandle)
-            this.remaining = this.duration
-        }
+        this.remaining = this.duration
         this.intervalHandle = setInterval(() => {
-            if (this.paused) return
             this.remaining -= this.tick
-            if (this.remaining <= 0) {
+            console.log(this)
+            if(this.remaining >=0) {
+                if(this.tickCallback) this.tickCallback()
+            }
+            if(this.remaining <=0){
+                if(this.intervalHandle) clearInterval(this.intervalHandle)
                 this.elapsedCallback()
-                return
             }
         }, this.tick)
-
     }
-
-    pause() {
-        if (this.intervalHandle) {
-            this.paused = true
-        }
-    }
-
-    reset() {
-
-    }
-
 }
 
 export default Timer
