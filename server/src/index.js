@@ -13,6 +13,7 @@ let opts = {
   kidScareFiles: ["kid-scare-1", "kid-scare-2"],
   adultScareFiles: ["adult-scare-1", "adult-scare-2"],
   roamFiles: ["roam-1", "roam-2"],
+  kidMode: true
 }
 
 if(process.env.RASPPI === 'true'){

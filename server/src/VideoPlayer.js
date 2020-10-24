@@ -13,8 +13,8 @@ class VideoPlayer {
             const {error, stdout, stderr} = await exec(`sudo omxplayer -b -o both --vol -1000 ${file}`)
             console.log(error, stdout, stderr)
         */
-        if (this.player) {
-            return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
+            if (this.player) {
                 try {
                     this.player.newSource(file, 'both', false, 100)
                     this.player.on('close', () => {
@@ -24,12 +24,12 @@ class VideoPlayer {
                 catch (err) {
                     reject()
                 }
+            }
+            else {
+                setTimeout(() => resolve(), 3000)
+            }
 
-            })
-        }
-        else {
-            return Promise.resolve()
-        }
+        })
     }
 
 }
