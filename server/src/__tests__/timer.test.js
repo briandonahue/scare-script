@@ -3,26 +3,75 @@ import Timer from '../timer.js'
 
 jest.useFakeTimers()
 describe("timer", () => {
-    it("should run elapsed callback on elapse", () => {
-        let elapsed = false
-        const timer = new Timer({ duration: 1000, elapsedCallback: () => elapsed = true })
-        timer.start()
-        jest.runAllTimers()
-        expect(elapsed).toBe(true)
+    describe("elapse", () => {
+        it("should run elapsed callback on elapse", () => {
+            let elapsed = false
+            const timer = new Timer({ duration: 1000, elapsedCallback: () => elapsed = true })
+            timer.start()
+            jest.runAllTimers()
+            expect(elapsed).toBe(true)
+        })
     })
-    it("should run tick callback on each tick", () => {
+    describe("tick", () => {
+        it("should run tick callback on each tick", () => {
+            let tickCount = 0
+            let elapsed = false
+            const timer = new Timer({
+                tick: 1000,
+                tickCallback: () => tickCount++,
+                duration: 3000,
+                elapsedCallback: () => elapsed = true
+            })
+            timer.start()
+            jest.runAllTimers()
+            expect(tickCount).toBe(3)
+            expect(elapsed).toBe(true)
+        })
+    })
+    describe("stop", () => {
         let tickCount = 0
         let elapsed = false
-        const timer = new Timer({ 
-            tick: 1000,
-            tickCallback: () => tickCount++,
-            duration: 3000, 
-            elapsedCallback: () => elapsed = true 
+        let timer
+        beforeAll(() => {
+            const timer = new Timer({
+                tick: 1000,
+                tickCallback: () => tickCount++,
+                duration: 3000,
+                elapsedCallback: () => elapsed = true
+            })
+            timer.start()
+            jest.advanceTimersByTime(2005)
+            timer.stop()
+            jest.runAllTimers()
         })
-        timer.start()
-        jest.runAllTimers()
-        expect(tickCount).toBe(3)
-        expect(elapsed).toBe(true)
+        it("should have ticked twice", () => {
+            expect(tickCount).toBe(2)
+        })
+        it("should not elapse", () => {
+            expect(elapsed).toBe(false)
+        })
+    })
+    describe("repeat", () => {
+        let tickCount = 0
+        let elapsedCount = 0
+        let timer
+        beforeAll(() => {
+            const timer = new Timer({
+                tick: 1000,
+                tickCallback: () => tickCount++,
+                duration: 3000,
+                elapsedCallback: () => elapsedCount++,
+                repeat: true
+            })
+            timer.start()
+            jest.advanceTimersByTime(3000*3)
+        })
+        it("should tick 9 times", () => {
+            expect(tickCount).toBe(9)
+        })
+        it("should elapse 3 times", () => {
+            expect(elapsedCount).toBe(3)
+        })
 
 
     })
