@@ -14,7 +14,7 @@ class ReadMotion {
             if (MOTION_DETECTED != current) {
                 MOTION_DETECTED = current
                 console.log(current ? "Motion detected!" : "Motion stopped.")
-                callback(current)
+                await callback(current)
             }
         }, intervalMs)
 

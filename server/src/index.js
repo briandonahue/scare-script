@@ -1,12 +1,11 @@
 import "regenerator-runtime/runtime.js";
 import { server } from './server'
 import App from './App'
+import Glob from 'glob'
 
 /*
 import { exec } from 'child_process'
-import ReadMotion from './ReadMotion'
 import { play } from './play-video'
-import Glob from 'glob'
 */
 require('dotenv-defaults').config()
 
@@ -22,6 +21,7 @@ if(process.env.RASPPI === 'true'){
   opts.kidScareFiles = Glob.sync(`${basePath}${orientation}/scare/kids/**\/*.mp4`),
   opts.adultScareFiles = Glob.sync(`${basePath}${orientation}/scare/adults/**\/*.mp4`)
   opts.roamFiles = Glob.sync(`${basePath}${orientation}/roam/**\/*.mp4`)
+  console.log(opts)
 }
 
 const app = new App(opts)

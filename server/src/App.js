@@ -1,12 +1,15 @@
 import VideoPlayer from './VideoPlayer'
 import Timer from './Timer'
+import ReadMotion from './ReadMotion'
 
 
 class App {
     constructor(options) {
         this.player = new VideoPlayer()
-        this.scareFiles = options.scareFiles
+        this.kidScareFiles = options.kidScareFiles
+        this.adultScareFiles = options.adultScareFiles
         this.roamFiles = options.roamFiles
+        this.motion = new ReadMotion()
     }
     start() {
         console.log("App started")
@@ -18,14 +21,29 @@ class App {
             immediate: true
         })
         this.roamTimer.start()
+        this.motion.start(process.env.MOTION_PIN, process.env.MOTION_INTERVAL, () => this.randomScare())
 
     }
-    randomRoam() {
+    async randomRoam() {
         console.log("randomRoam")
         if (Array.isArray(this.roamFiles) && this.roamFiles.length > 0) {
             const ghost = Math.floor(Math.random() * this.roamFiles.length)
             const file = this.roamFiles[ghost]
-            this.player.play(file)
+            await this.player.play(file)
+        }
+        else {
+            await Promise.resolve()
+        }
+    }
+    async randomScare() {
+        console.log("randomScare", this)
+        if (Array.isArray(this.adultScareFiles) && this.adultScareFiles.length > 0) {
+            const ghost = Math.floor(Math.random() * this.adultScareFiles.length)
+            const file = this.adultScareFiles[ghost]
+            await this.player.play(file)
+        }
+        else {
+            await Promise.resolve()
         }
     }
     tickCallback() {
