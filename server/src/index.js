@@ -1,23 +1,57 @@
 import "regenerator-runtime/runtime.js";
+import { server } from './server'
+import App from './App'
+
+/*
 import { exec } from 'child_process'
 import ReadMotion from './ReadMotion'
-import { server } from './server'
-import fs from 'fs'
 import { play } from './play-video'
 import Glob from 'glob'
+*/
+require('dotenv-defaults').config()
 
+let opts = {
+  kidScareFiles: ["kid-scare-1", "kid-scare-2"],
+  adultScareFiles: ["adult-scare-1", "adult-scare-2"],
+  roamFiles: ["roam-1", "roam-2"],
+}
+
+if(process.env.RASPPI === 'true'){
+  const orientation = process.env.VERTICAL_MODE === 'true' ? 'vertical' : 'horizontal'
+  const basePath = process.env.VIDEO_FOLDER
+  opts.kidScareFiles = Glob.sync(`${basePath}${orientation}/scare/kids/**\/*.mp4`),
+  opts.adultScareFiles = Glob.sync(`${basePath}${orientation}/scare/adults/**\/*.mp4`)
+  opts.roamFiles = Glob.sync(`${basePath}${orientation}/roam/**\/*.mp4`)
+}
+
+const app = new App(opts)
+app.start()
+
+
+const socket = require('socket.io')(server, { path: '/socket' })
+socket.on('connect', async (socket) => {// WebSocket Connection
+  console.log("Client Connected")
+  //  var buttonState = 0; //variable to store button state
+  socket.broadcast.emit('test', "test")
+
+})
+socket.on('enableRoam', (enabled) => {
+})
+
+socket.on('enableMotion', (enabled) => {
+})
+
+server.listen(8080);
+
+console.log("Listening on port 8080...")
+
+/*
 
 let files = {roam:[], scare:[]}
 
 const motion = new ReadMotion();
 
 
-var defaultConfig = {
-  hauntCooldown: 30,
-  roamCooldown: 60,
-  verticalMode: false,
-  kidMode: false
-}
 
 const config = defaultConfig
 
@@ -28,18 +62,15 @@ const loadFiles = (isVertical, kidMode) => {
   const orientation = isVertical ? "vertical" : "horizontal";
   const scareFiles = kidMode ? "kids" : "adults";
   files = {
-    roam: Glob.sync(`/home/pi/share/${orientation}/roam/**/*.mp4`),
-    scare: Glob.sync(`/home/pi/share/${orientation}/scare/${scareFiles}/**/*.mp4`),
+    roam: Glob.sync(`/home/pi/share/${orientation}/roam/**\/*.mp4`),
+    scare: Glob.sync(`/home/pi/share/${orientation}/scare/${scareFiles}/**\/*.mp4`),
   }
 }
 
 loadFiles(config.verticalMode)
 console.log(files)
 
-const socket = require('socket.io')(server, { path: '/socket' })
 
-server.listen(8080);
-console.log("Listening on port 8080...")
 
 const startRoam = () => {
   if(roamInterval) clearInterval(roamInterval)
@@ -56,13 +87,6 @@ const playRoam = async () => {
 
 
 
-socket.on('connection', async (socket) => {// WebSocket Connection
-  console.log("Client Connected")
-  //  var buttonState = 0; //variable to store button state
-  socket.broadcast.emit('test', "test")
-  socket.emit('config', config)
-
-})
 
   socket.on('verticalMode', (enabled) => {
     config.verticalMode = enabled
@@ -99,3 +123,4 @@ socket.on('connection', async (socket) => {// WebSocket Connection
 
 
 
+*/
