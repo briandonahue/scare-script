@@ -53,11 +53,12 @@ class App {
                     this.preventScare = false
                 }
             })
+            this.scareTimer.start()
             console.log("finish scare")
         }
     }
     async randomScare() {
-        console.log("randomScare", this)
+        console.log("randomScare")
         this.scarePlaying = true
         const files = this.kidMode ? this.kidScareFiles : this.adultScareFiles
         if (Array.isArray(files) && files.length > 0) {
