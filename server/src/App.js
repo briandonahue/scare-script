@@ -39,18 +39,26 @@ class App {
         this.roamPlaying = false
     }
     async safeScare() {
-            console.log("attempt scare")
-        if(!this.preventScare){
+        console.log("attempt scare")
+        if (!this.preventScare) {
             console.log("start scare")
             this.preventScare = true
+            this.roamTimer.stop()
             await this.randomScare()
-            this.preventScare = false
+            this.scareTimer = new Timer({
+                tickCallback: () => this.scareTickCallback(),
+                duration: process.env.SCARE_COOLDOWN,
+                elapsedCallback: () => {
+                    this.roamTimer.start()
+                    this.preventScare = false
+                }
+            })
             console.log("finish scare")
         }
     }
     async randomScare() {
         console.log("randomScare", this)
-        this.scarePlaying=true
+        this.scarePlaying = true
         const files = this.kidMode ? this.kidScareFiles : this.adultScareFiles
         if (Array.isArray(files) && files.length > 0) {
             const ghost = Math.floor(Math.random() * files.length)
@@ -63,7 +71,10 @@ class App {
         this.scarePlaying = false
     }
     tickCallback() {
-        console.log(this.roamTimer?.remaining)
+        console.log("Roam:", this.roamTimer?.remaining)
+    }
+    scareTickCallback() {
+        console.log("Scare cooldown:", this.scareTimer?.remaining)
     }
 
 }
