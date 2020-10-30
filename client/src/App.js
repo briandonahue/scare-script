@@ -131,7 +131,7 @@ function App() {
               </Form.Group>
             </Col>
             <Col>
-              <Button onClick={() => socket.emit('start-roam')}>Roam</Button>
+              <Button onClick={() => socket.emit('scare')}>Scare</Button>
             </Col>
           </Row>
         </Form>

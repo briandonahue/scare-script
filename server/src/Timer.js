@@ -15,6 +15,8 @@ class Timer {
             options.tickCallback()
         } : undefined
         */
+        this.startCallback = options.startCallback
+        this.stopCallback = options.stopCallback
         this.elapsedCallback = options.elapsedCallback
         this.tickCallback = options.tickCallback
         this.repeat = options.repeat
@@ -23,6 +25,7 @@ class Timer {
     }
 
     async start() {
+        this.startCallback && this.startCallback()
         if (this.immediate) {
             await this.elapsedCallback()
         }
@@ -30,8 +33,9 @@ class Timer {
     }
     countdown() {
         this.reset()
-        if (this.tickCallback)
-            this.tickCallback()
+        if (this.tickCallback) this.tickCallback()
+        if(this.intervalHandle) clearInterval(this.intervalHandle)
+
         this.intervalHandle = setInterval(async () => {
             this.remainingMs -= this.tick
             this.remaining -= 1
@@ -55,6 +59,7 @@ class Timer {
         this.remaining = this.duration
     }
     stop() {
+        this.stopCallback && this.stopCallback()
         clearInterval(this.intervalHandle)
     }
 

@@ -16,11 +16,11 @@ let opts = {
   kidMode: true
 }
 
-if(process.env.RASPPI === 'true'){
+if (process.env.RASPPI === 'true') {
   const orientation = process.env.VERTICAL_MODE === 'true' ? 'vertical' : 'horizontal'
   const basePath = process.env.VIDEO_FOLDER
   opts.kidScareFiles = Glob.sync(`${basePath}${orientation}/scare/kids/**\/*.mp4`),
-  opts.adultScareFiles = Glob.sync(`${basePath}${orientation}/scare/adults/**\/*.mp4`)
+    opts.adultScareFiles = Glob.sync(`${basePath}${orientation}/scare/adults/**\/*.mp4`)
   opts.roamFiles = Glob.sync(`${basePath}${orientation}/roam/**\/*.mp4`)
   console.log(opts)
 }
@@ -34,14 +34,20 @@ socket.on('connect', async (socket) => {// WebSocket Connection
   console.log("Client Connected")
   //  var buttonState = 0; //variable to store button state
   socket.broadcast.emit('test', "test")
+  socket.on('enableRoam', (enabled) => {
+    console.log('enableRoam received')
+  })
+
+  socket.on('enableMotion', (enabled) => {
+    console.log('enableMotion received')
+  })
+
+  socket.on('scare', async (msg) => {
+    console.log('scare received')
+    app.scare()
+  })
 
 })
-socket.on('enableRoam', (enabled) => {
-})
-
-socket.on('enableMotion', (enabled) => {
-})
-
 server.listen(8080);
 
 console.log("Listening on port 8080...")
