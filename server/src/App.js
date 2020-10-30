@@ -12,21 +12,23 @@ class App {
         this.enableMotion = options.enableMotion === undefined ? true : options.enableMotion
         this.roamFiles = options.roamFiles
         this.kidMode = options.kidMode
+        this.roamCooldown = options.roamCooldown || process.env.ROAM_COOLDOWN,
+        this.motionCooldown = options.motionCooldown || process.env.SCARE_COOLDOWN,
         this.motion = new ReadMotion()
         this.roamTimer = new Timer({
             startCallback: () => console.log("Roam timer started"),
             stopCallback: () => console.log("Roam timer stopped"),
             tickCallback: () => this.tickCallback(),
-            duration: process.env.ROAM_COOLDOWN,
+            duration: this.roamCooldown,
             elapsedCallback: () => this.randomRoam(),
             repeat: true,
             //            immediate: true
         })
-        this.motionCooldown = new Timer({
+        this.motionCooldownTimer = new Timer({
             startCallback: () => console.log("Motion cooldown started"),
             stopCallback: () => console.log("Motion cooldown stopped"),
             tickCallback: () => this.scareTickCallback(),
-            duration: process.env.SCARE_COOLDOWN,
+            duration: this.motionCooldown,
             elapsedCallback: () => {
                 this.setMotion(this.enableMotion)
                 this.setRoam(this.enableRoam)
@@ -56,7 +58,7 @@ class App {
         this.setMotion(false)
         this.setRoam(false)
         await this.randomScare()
-        this.motionCooldown.start()
+        this.motionCooldownTimer.start()
         console.log("finish scare")
     }
     async randomScare() {
@@ -76,7 +78,7 @@ class App {
         console.log("Roam:", this.roamTimer?.remaining)
     }
     scareTickCallback() {
-        console.log("Motion cooldown:", this.motionCooldown?.remaining)
+        console.log("Motion cooldown:", this.motionCooldownTimer?.remaining)
     }
 
     setRoam(enable) {

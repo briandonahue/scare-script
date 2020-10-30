@@ -59,7 +59,7 @@ function App() {
   }, [verticalMode])
 
   useEffect(() => {
-    socket.emit('kidMode', kidMode)
+    socket.emit('enableKidMode', kidMode)
   }, [kidMode])
 
   const toggleMotion = () => {
@@ -103,8 +103,8 @@ function App() {
               <Form.Group>
                 <label>Kid Mode</label>
                 <Toggle
-                  defaultChecked={enableMotion}
-                  onChange={toggleMotion}
+                  defaultChecked={kidMode}
+                  onChange={toggleKid}
                 />
               </Form.Group>
             </Col>
@@ -132,6 +132,9 @@ function App() {
             </Col>
             <Col>
               <Button onClick={() => socket.emit('scare')}>Scare</Button>
+            </Col>
+            <Col>
+              <Button onClick={() => socket.emit('roam')}>Roam</Button>
             </Col>
           </Row>
         </Form>

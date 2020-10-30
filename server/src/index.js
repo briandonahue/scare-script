@@ -13,7 +13,7 @@ let opts = {
   kidScareFiles: ["kid-scare-1", "kid-scare-2"],
   adultScareFiles: ["adult-scare-1", "adult-scare-2"],
   roamFiles: ["roam-1", "roam-2"],
-  kidMode: true
+  kidMode: false
 }
 
 if (process.env.RASPPI === 'true') {
@@ -35,16 +35,29 @@ socket.on('connect', async (socket) => {// WebSocket Connection
   //  var buttonState = 0; //variable to store button state
   socket.broadcast.emit('test', "test")
   socket.on('enableRoam', (enabled) => {
-    console.log('enableRoam received')
+    app.enableRoam = enabled
+    app.start()
+    console.log(`enableRoam: ${enabled}`)
   })
 
   socket.on('enableMotion', (enabled) => {
-    console.log('enableMotion received')
+    app.enableMotion = enabled
+    app.start()
+    console.log(`enableMotion: ${enabled}`)
+  })
+  socket.on('enableKidMode', (enabled) => {
+    app.kidMode = enabled
+    app.start()
+    console.log(`enableKidMode: ${enabled}`)
   })
 
   socket.on('scare', async (msg) => {
     console.log('scare received')
     app.scare()
+  })
+  socket.on('roam', async (msg) => {
+    console.log('roam received')
+    app.randomRoam()
   })
 
 })
