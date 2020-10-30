@@ -22,7 +22,7 @@ class ReadMotion {
 
     }
     stop() {
-        clearInterval(this.intervalHandle)
+        this.intervalHandle && clearInterval(this.intervalHandle)
     }
 }
 

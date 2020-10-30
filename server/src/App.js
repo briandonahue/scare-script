@@ -8,6 +8,8 @@ class App {
         this.player = new VideoPlayer()
         this.kidScareFiles = options.kidScareFiles
         this.adultScareFiles = options.adultScareFiles
+        this.enableRoam = options.enableRoam === undefined ? true : options.enableRoam
+        this.enableMotion = options.enableMotion === undefined ? true : options.enableMotion
         this.roamFiles = options.roamFiles
         this.kidMode = options.kidMode
         this.motion = new ReadMotion()
@@ -18,7 +20,7 @@ class App {
             duration: process.env.ROAM_COOLDOWN,
             elapsedCallback: () => this.randomRoam(),
             repeat: true,
-//            immediate: true
+            //            immediate: true
         })
         this.motionCooldown = new Timer({
             startCallback: () => console.log("Motion cooldown started"),
@@ -26,17 +28,15 @@ class App {
             tickCallback: () => this.scareTickCallback(),
             duration: process.env.SCARE_COOLDOWN,
             elapsedCallback: () => {
-                this.setMotion(true)
-                this.setRoam(true)
-                this.preventScare = false
+                this.setMotion(this.enableMotion)
+                this.setRoam(this.enableRoam)
             }
         })
     }
     start() {
         console.log("App started")
-        this.setRoam(true)
-        this.setMotion(true)
-
+        this.setRoam(this.enableRoam)
+        this.setMotion(this.enableMotion)
     }
     async randomRoam() {
         console.log("randomRoam")
@@ -53,14 +53,11 @@ class App {
     }
     async scare() {
         console.log("attempt scare")
-        if (!this.preventScare) {
-            console.log("start scare")
-            this.preventScare = true
-            this.setRoam(false)
-            await this.randomScare()
-            this.motionCooldown.start()
-            console.log("finish scare")
-        }
+        this.setMotion(false)
+        this.setRoam(false)
+        await this.randomScare()
+        this.motionCooldown.start()
+        console.log("finish scare")
     }
     async randomScare() {
         console.log("randomScare")
@@ -93,10 +90,10 @@ class App {
     }
     setMotion(enable) {
         if (enable) {
-        this.motion.start(process.env.MOTION_PIN, process.env.MOTION_INTERVAL, () => this.scare())
+            this.motion.start(process.env.MOTION_PIN, process.env.MOTION_INTERVAL, () => this.scare())
         }
         else {
-            this.motion.
+            this.motion.stop()
         }
 
     }

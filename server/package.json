@@ -18,6 +18,7 @@
   },
   "nodemonConfig": {
     "exec": "yarn start",
+    "delay": "3000",
     "watch": [
       "src/*"
     ],
